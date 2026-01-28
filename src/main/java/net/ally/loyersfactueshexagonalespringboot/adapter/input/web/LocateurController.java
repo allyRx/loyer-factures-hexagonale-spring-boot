@@ -2,11 +2,15 @@ package net.ally.loyersfactueshexagonalespringboot.adapter.input.web;
 
 import net.ally.loyersfactueshexagonalespringboot.adapter.input.dto.locateur.RequestLocateur;
 import net.ally.loyersfactueshexagonalespringboot.adapter.input.dto.locateur.ResponseLocateur;
+import net.ally.loyersfactueshexagonalespringboot.domain.model.bien.Bien;
 import net.ally.loyersfactueshexagonalespringboot.domain.model.locateur.Locateur;
+import net.ally.loyersfactueshexagonalespringboot.domain.port.input.BienUsecase;
 import net.ally.loyersfactueshexagonalespringboot.domain.port.input.LocateurUsecase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -16,14 +20,28 @@ import java.util.stream.Collectors;
 public class LocateurController {
 
     private final  LocateurUsecase locateurUsecase;
-
-    public LocateurController(LocateurUsecase locateurUsecase){
+    private final BienUsecase bienUsecase;
+    public LocateurController(LocateurUsecase locateurUsecase, BienUsecase bienUsecase){
         this.locateurUsecase = locateurUsecase;
+        this.bienUsecase = bienUsecase;
     }
 
     @PostMapping
     public ResponseEntity<ResponseLocateur> enrgistrerLocateur(@RequestBody RequestLocateur requestLocateur){
-       Locateur locateur = locateurUsecase.sauvegarderLocateur(requestLocateur.getName(), requestLocateur.getEmail(), requestLocateur.getTelephone());
+        // 1. Récupérer les UUIDs des biens
+        List<UUID> bienIds = requestLocateur.getBiens();
+
+        // 2. Convertir les UUIDs en objets Bien (si des biens sont spécifiés)
+        List<Bien> biens = new ArrayList<>();
+        if (bienIds != null && !bienIds.isEmpty()) {
+            for (UUID bienId : bienIds) {
+                // Récupérer le bien depuis le service
+                Bien bien = bienUsecase.recupererBienParId(bienId).orElseThrow();
+                biens.add(bien);
+            }
+        }
+
+        Locateur locateur = locateurUsecase.sauvegarderLocateur(requestLocateur.getName(), requestLocateur.getEmail(), requestLocateur.getTelephone(),biens);
 
        return new ResponseEntity<>(toResponse(locateur), HttpStatus.OK);
     }
@@ -52,7 +70,8 @@ public class LocateurController {
                     locateur.getId().toString(),
                     locateur.getName(),
                     locateur.getEmail(),
-                    locateur.getTelephone()
+                    locateur.getTelephone(),
+                    locateur.getBiens()
             );
         }
 
