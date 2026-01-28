@@ -1,5 +1,6 @@
 package net.ally.loyersfactueshexagonalespringboot.domain.service;
 
+import net.ally.loyersfactueshexagonalespringboot.domain.model.bien.Bien;
 import net.ally.loyersfactueshexagonalespringboot.domain.model.locateur.Locateur;
 import net.ally.loyersfactueshexagonalespringboot.domain.port.input.LocateurUsecase;
 import net.ally.loyersfactueshexagonalespringboot.domain.port.output.LocateurRepositoryPort;
@@ -17,8 +18,8 @@ public class LocateurService implements LocateurUsecase {
     }
 
     @Override
-    public Locateur sauvegarderLocateur(String name, String email, String telephone) {
-        Locateur locateur = new Locateur(name,email,telephone);
+    public Locateur sauvegarderLocateur(String name, String email, String telephone, List<Bien> bien) {
+        Locateur locateur = new Locateur(name,email,telephone,bien);
         return locateurRepositoryPort.save(locateur);
     }
 

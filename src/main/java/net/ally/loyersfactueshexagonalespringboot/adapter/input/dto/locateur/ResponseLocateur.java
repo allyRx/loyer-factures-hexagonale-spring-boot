@@ -3,6 +3,10 @@ package net.ally.loyersfactueshexagonalespringboot.adapter.input.dto.locateur;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.ally.loyersfactueshexagonalespringboot.adapter.output.entity.BienEntity;
+import net.ally.loyersfactueshexagonalespringboot.domain.model.bien.Bien;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,4 +16,5 @@ public class ResponseLocateur {
     private String name;
     private String email;
     private String telephone;
+    private List<Bien> biens;
 }

@@ -20,6 +20,9 @@ public class BienEntity {
     private String adresse;
     private double loyerMensuelle;
     private boolean estDisponible;
+    @ManyToOne
+    @JoinColumn(name = "locateur_id")
+    private LocateurEntity locateur;
 
 
     public static BienEntity fromDomain(Bien bien) {
@@ -28,7 +31,8 @@ public class BienEntity {
                 bien.getReference(),
                 bien.getAdresse(),
                 bien.getLoyerMensuelle(),
-                bien.estDisponible()
+                bien.estDisponible(),
+                null
         );
     }
 
