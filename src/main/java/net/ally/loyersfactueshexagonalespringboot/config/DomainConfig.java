@@ -22,4 +22,8 @@ public class DomainConfig {
         return new BienService(bienRepositoryPort);
     }
 
+    @Bean
+    public LocataireService locataireService(LocataireRepositryPort locataireRepositryPort){
+        return new LocataireService(locataireRepositryPort);
+    }
 }

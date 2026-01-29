@@ -3,11 +3,13 @@ package net.ally.loyersfactueshexagonalespringboot.adapter.output.persistence.Lo
 import net.ally.loyersfactueshexagonalespringboot.adapter.output.entity.LocataireEntity;
 import net.ally.loyersfactueshexagonalespringboot.domain.model.locataire.Locataire;
 import net.ally.loyersfactueshexagonalespringboot.domain.port.output.LocataireRepositryPort;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Component
 public class LocataireRepositoryAdapter implements LocataireRepositryPort {
 
     private final LocataireRepository locataireRepository;

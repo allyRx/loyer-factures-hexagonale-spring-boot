@@ -18,11 +18,12 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/locataire")
 public class LocataireController {
-    private  LocataireUsecase locataireUsecase;
+    private final LocataireUsecase locataireUsecase;
     private final  BienUsecase bienUsecase;
 
-    public LocataireController( BienUsecase bienUsecase) {
+    public LocataireController( BienUsecase bienUsecase,LocataireUsecase locataireUsecase) {
         this.bienUsecase = bienUsecase;
+        this.locataireUsecase=locataireUsecase;
     }
 
     @PostMapping
