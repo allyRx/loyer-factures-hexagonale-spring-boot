@@ -17,6 +17,7 @@ public class LocataireService implements LocataireUsecase {
     private final LocataireRepositryPort locataireRepositoryPort;
     private final BienRepositoryPort bienRepositoryPort;
 
+
     public LocataireService(LocataireRepositryPort locataireRepositoryPort, BienRepositoryPort bienRepositoryPort) {
         this.locataireRepositoryPort = locataireRepositoryPort;
 
@@ -30,13 +31,18 @@ public class LocataireService implements LocataireUsecase {
         //verification si bien est dispo
         List<Bien> bienFinal = new ArrayList<>();
 
+
+
         for (Bien bien : biens) {
             if(bien.estDisponible()){
                 bienFinal.add(bien);
-
                  bien.setEstDisponible(false);
                  bienRepositoryPort.save(bien); //mettre le bien en false
             }
+        }
+
+        if(bienFinal.isEmpty()){
+            return null;
         }
 
         Locataire locataire = new Locataire(name,email,telephone,date_entree,bienFinal);
