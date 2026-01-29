@@ -2,11 +2,14 @@ package net.ally.loyersfactueshexagonalespringboot.adapter.input.web;
 
 import net.ally.loyersfactueshexagonalespringboot.adapter.input.dto.bien.RequestDto;
 import net.ally.loyersfactueshexagonalespringboot.adapter.input.dto.bien.ResponseDto;
+import net.ally.loyersfactueshexagonalespringboot.adapter.input.dto.bien.UpdateDto;
 import net.ally.loyersfactueshexagonalespringboot.domain.model.bien.Bien;
 import net.ally.loyersfactueshexagonalespringboot.domain.port.input.BienUsecase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -27,6 +30,14 @@ public class BienController {
         Bien bien = bienUsecase.sauvegarderDeBien(requestDto.getReference(), requestDto.getAdresse(), requestDto.getLoyerMensuelle(), requestDto.isEstDisbonible());
 
         return new ResponseEntity<>(toResponse(bien),HttpStatus.OK);
+    }
+
+
+    @PutMapping("{id}")
+    public ResponseEntity<ResponseDto> updateBien(@RequestBody UpdateDto updateDto, @PathVariable UUID id){
+        Bien bienSaved = bienUsecase.updateBien(id, updateDto.getReference(), updateDto.getAdresse(),updateDto.getLoyerMensuelle(), updateDto.isEstDisbonible());
+
+        return new ResponseEntity<>(toResponse(bienSaved),HttpStatus.OK);
     }
 
     @GetMapping("{id}")

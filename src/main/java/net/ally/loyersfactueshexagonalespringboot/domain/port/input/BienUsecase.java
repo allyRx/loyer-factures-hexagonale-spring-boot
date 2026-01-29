@@ -11,4 +11,5 @@ public interface BienUsecase {
     Optional<Bien> recupererBienParId(UUID id);
     void supprimerDeBien(UUID id);
     List<Bien> tousLesBien();
+    Bien updateBien(UUID id,String reference, String adresse , double loyerMensuelle, boolean estDisponible );
 }

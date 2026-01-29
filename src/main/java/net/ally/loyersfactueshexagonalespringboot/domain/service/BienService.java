@@ -21,7 +21,7 @@ public class BienService implements BienUsecase {
     public Bien sauvegarderDeBien(String reference, String adresse, double loyerMensuelle, boolean estDisponible) {
         Bien bien = new Bien(reference,adresse,loyerMensuelle,estDisponible);
 
-        return  bienRepositoryPort.create(bien);
+        return  bienRepositoryPort.save(bien);
     }
 
     @Override
@@ -38,4 +38,16 @@ public class BienService implements BienUsecase {
     public List<Bien> tousLesBien() {
         return bienRepositoryPort.findAll();
     }
+
+    @Override
+    public Bien updateBien(UUID id, String reference, String adresse, double loyerMensuelle, boolean estDisponible) {
+        Bien bien = bienRepositoryPort.findById(id).orElseThrow();
+        bien.setReference(reference);
+        bien.setAdresse(adresse);
+        bien.setLoyerMensuelle(loyerMensuelle);
+        bien.setEstDisponible(estDisponible);
+        return bienRepositoryPort.save(bien);
+    }
+
+
 }
