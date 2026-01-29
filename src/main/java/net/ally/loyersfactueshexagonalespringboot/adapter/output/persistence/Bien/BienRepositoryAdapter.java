@@ -20,7 +20,7 @@ public class BienRepositoryAdapter implements BienRepositoryPort {
     }
 
     @Override
-    public Bien create(Bien bien) {
+    public Bien save(Bien bien) {
         BienEntity bienEntity = BienEntity.fromDomain(bien);
         BienEntity saved = bienRepository.save(bienEntity);
         return BienEntity.toDomain(saved);

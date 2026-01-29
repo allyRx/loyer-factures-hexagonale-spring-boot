@@ -1,10 +1,12 @@
 package net.ally.loyersfactueshexagonalespringboot.domain.model.bien;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
 @Getter
+@Setter
 public class Bien {
     private UUID id;
     private String reference;

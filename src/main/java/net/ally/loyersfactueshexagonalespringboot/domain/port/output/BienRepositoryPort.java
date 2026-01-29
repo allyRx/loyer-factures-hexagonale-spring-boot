@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface BienRepositoryPort {
-    Bien create(Bien bien);
+    Bien save(Bien bien);
     Optional<Bien> findById(UUID id);
     void deleteById(UUID id);
     List<Bien> findAll();
