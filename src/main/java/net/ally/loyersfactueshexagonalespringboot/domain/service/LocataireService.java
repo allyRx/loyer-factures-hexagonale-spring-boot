@@ -2,6 +2,7 @@ package net.ally.loyersfactueshexagonalespringboot.domain.service;
 
 import net.ally.loyersfactueshexagonalespringboot.domain.model.bien.Bien;
 import net.ally.loyersfactueshexagonalespringboot.domain.model.locataire.Locataire;
+import net.ally.loyersfactueshexagonalespringboot.domain.model.typemateriel.TypeMateriel;
 import net.ally.loyersfactueshexagonalespringboot.domain.port.input.LocataireUsecase;
 import net.ally.loyersfactueshexagonalespringboot.domain.port.output.BienRepositoryPort;
 import net.ally.loyersfactueshexagonalespringboot.domain.port.output.LocataireRepositryPort;
@@ -26,11 +27,10 @@ public class LocataireService implements LocataireUsecase {
 
 
     @Override
-    public Locataire ajouterLocataire(String name, String email, String telephone, LocalDateTime date_entree, List<Bien> biens) {
+    public Locataire ajouterLocataire(String name, String email, String telephone, LocalDateTime date_entree, List<Bien> biens,List<TypeMateriel> materiels) {
 
         //verification si bien est dispo
         List<Bien> bienFinal = new ArrayList<>();
-
 
 
         for (Bien bien : biens) {
@@ -45,7 +45,9 @@ public class LocataireService implements LocataireUsecase {
             return null;
         }
 
-        Locataire locataire = new Locataire(name,email,telephone,date_entree,bienFinal);
+        List<TypeMateriel> Materiels = new ArrayList<>(materiels);
+
+        Locataire locataire = new Locataire(name,email,telephone,date_entree,bienFinal,Materiels);
         return locataireRepositoryPort.save(locataire);
     }
 

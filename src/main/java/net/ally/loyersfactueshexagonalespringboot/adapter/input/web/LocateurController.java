@@ -4,8 +4,10 @@ import net.ally.loyersfactueshexagonalespringboot.adapter.input.dto.locateur.Req
 import net.ally.loyersfactueshexagonalespringboot.adapter.input.dto.locateur.ResponseLocateur;
 import net.ally.loyersfactueshexagonalespringboot.domain.model.bien.Bien;
 import net.ally.loyersfactueshexagonalespringboot.domain.model.locateur.Locateur;
+import net.ally.loyersfactueshexagonalespringboot.domain.model.typemateriel.TypeMateriel;
 import net.ally.loyersfactueshexagonalespringboot.domain.port.input.BienUsecase;
 import net.ally.loyersfactueshexagonalespringboot.domain.port.input.LocateurUsecase;
+import net.ally.loyersfactueshexagonalespringboot.domain.port.input.TypeMaterielUsecase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,8 @@ public class LocateurController {
 
     private final  LocateurUsecase locateurUsecase;
     private final BienUsecase bienUsecase;
+
+
     public LocateurController(LocateurUsecase locateurUsecase, BienUsecase bienUsecase){
         this.locateurUsecase = locateurUsecase;
         this.bienUsecase = bienUsecase;
@@ -28,7 +32,8 @@ public class LocateurController {
 
     @PostMapping
     public ResponseEntity<ResponseLocateur> enrgistrerLocateur(@RequestBody RequestLocateur requestLocateur){
-        // 1. Récupérer les UUIDs des biens
+
+        // Récupérer les UUIDs des biens
         List<UUID> bienIds = requestLocateur.getBiens();
 
         // 2. Convertir les UUIDs en objets Bien (si des biens sont spécifiés)
@@ -40,6 +45,7 @@ public class LocateurController {
                 biens.add(bien);
             }
         }
+
 
         Locateur locateur = locateurUsecase.sauvegarderLocateur(requestLocateur.getName(), requestLocateur.getEmail(), requestLocateur.getTelephone(),biens);
 
@@ -64,6 +70,7 @@ public class LocateurController {
     public void supprimetLocateur(@PathVariable UUID id){
         locateurUsecase.supprimerLocateur(id);
     }
+
 
         ResponseLocateur toResponse(Locateur locateur){
             return new ResponseLocateur(

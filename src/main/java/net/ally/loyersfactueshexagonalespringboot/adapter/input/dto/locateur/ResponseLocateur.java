@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import net.ally.loyersfactueshexagonalespringboot.domain.model.bien.Bien;
+import net.ally.loyersfactueshexagonalespringboot.domain.model.typemateriel.TypeMateriel;
 
 import java.util.List;
 

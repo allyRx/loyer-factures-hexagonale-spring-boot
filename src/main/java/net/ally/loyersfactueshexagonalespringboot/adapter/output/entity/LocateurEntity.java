@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import net.ally.loyersfactueshexagonalespringboot.domain.model.bien.Bien;
 import net.ally.loyersfactueshexagonalespringboot.domain.model.locateur.Locateur;
+import net.ally.loyersfactueshexagonalespringboot.domain.model.typemateriel.TypeMateriel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,8 @@ public class LocateurEntity {
                 bienEntities.add(bienEntity);
             }
         }
+
+
         return new LocateurEntity(
                 locateur.getId(),
                 locateur.getName(),
@@ -80,6 +83,10 @@ public class LocateurEntity {
                 biensDomaine.add(bien);
             }
         }
+
+
+        List<TypeMateriel> typeDomaine = new ArrayList<>();
+
         return new Locateur(
                 locateurEntity.getId(),
                 locateurEntity.getName(),

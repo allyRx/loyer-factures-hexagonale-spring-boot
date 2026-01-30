@@ -16,4 +16,5 @@ public class RequestDto {
     private  String telephone;
     private  LocalDateTime date_entree;
     private  List<UUID> biens;
+    private List<UUID> materiels;
 }

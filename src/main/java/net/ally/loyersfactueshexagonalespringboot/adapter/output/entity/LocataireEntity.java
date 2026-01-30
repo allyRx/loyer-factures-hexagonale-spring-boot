@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.ally.loyersfactueshexagonalespringboot.domain.model.bien.Bien;
 import net.ally.loyersfactueshexagonalespringboot.domain.model.locataire.Locataire;
+import net.ally.loyersfactueshexagonalespringboot.domain.model.typemateriel.TypeMateriel;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,8 @@ public class LocataireEntity {
     private  LocalDateTime date_entree;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private  List<BienEntity> biens = new ArrayList<>();
-
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<TypeMaterielEntity> materiels = new ArrayList<>();
 
     public static Locataire toDomain(LocataireEntity locataireEntity){
         List<Bien> locataireEntities = new ArrayList<>();
@@ -40,13 +43,24 @@ public class LocataireEntity {
             locataireEntities.add(bien);
         }
 
+        List<TypeMateriel> materielTypes = new ArrayList<>();
+        for(TypeMaterielEntity typeMaterielEntity : locataireEntity.materiels){
+            TypeMateriel typeMateriel = new TypeMateriel(
+                    typeMaterielEntity.getId(),
+                    typeMaterielEntity.getNom(),
+                    typeMaterielEntity.getPrixUnitaire()
+            );
+            materielTypes.add(typeMateriel);
+        }
+
         return new Locataire(
                 locataireEntity.getId(),
                 locataireEntity.getName(),
                 locataireEntity.getEmail(),
                 locataireEntity.getTelephone(),
                 locataireEntity.getDate_entree(),
-                locataireEntities
+                locataireEntities,
+                materielTypes
         );
     }
 
@@ -67,6 +81,15 @@ public class LocataireEntity {
            locataireEntities.add(bien);
        }
 
+       List<TypeMaterielEntity> materielTypes = new ArrayList<>();
+       for(TypeMateriel materiel : locataire.getMateriels()){
+           TypeMaterielEntity materielEntity = new TypeMaterielEntity(
+                   materiel.getId(),
+                   materiel.getNom(),
+                   materiel.getPrixUnitaire()
+           );
+           materielTypes.add(materielEntity);
+       }
 
         return new LocataireEntity(
                locataire.getId(),
@@ -74,7 +97,8 @@ public class LocataireEntity {
                locataire.getEmail(),
                locataire.getTelephone(),
                locataire.getDate_entree(),
-                locataireEntities
+                locataireEntities,
+                materielTypes
        );
     }
 }

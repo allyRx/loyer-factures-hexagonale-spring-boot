@@ -2,6 +2,7 @@ package net.ally.loyersfactueshexagonalespringboot.domain.service;
 
 import net.ally.loyersfactueshexagonalespringboot.domain.model.bien.Bien;
 import net.ally.loyersfactueshexagonalespringboot.domain.model.locateur.Locateur;
+import net.ally.loyersfactueshexagonalespringboot.domain.model.typemateriel.TypeMateriel;
 import net.ally.loyersfactueshexagonalespringboot.domain.port.input.LocateurUsecase;
 import net.ally.loyersfactueshexagonalespringboot.domain.port.output.LocateurRepositoryPort;
 import java.util.List;
