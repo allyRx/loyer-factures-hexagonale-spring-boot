@@ -5,8 +5,10 @@ import net.ally.loyersfactueshexagonalespringboot.adapter.input.dto.locataire.Re
 import net.ally.loyersfactueshexagonalespringboot.adapter.input.dto.locataire.ResponseDto;
 import net.ally.loyersfactueshexagonalespringboot.domain.model.bien.Bien;
 import net.ally.loyersfactueshexagonalespringboot.domain.model.locataire.Locataire;
+import net.ally.loyersfactueshexagonalespringboot.domain.model.typemateriel.TypeMateriel;
 import net.ally.loyersfactueshexagonalespringboot.domain.port.input.BienUsecase;
 import net.ally.loyersfactueshexagonalespringboot.domain.port.input.LocataireUsecase;
+import net.ally.loyersfactueshexagonalespringboot.domain.port.input.TypeMaterielUsecase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +22,12 @@ import java.util.UUID;
 public class LocataireController {
     private final LocataireUsecase locataireUsecase;
     private final  BienUsecase bienUsecase;
+    private final TypeMaterielUsecase typeMaterielUsecase;
 
-    public LocataireController( BienUsecase bienUsecase,LocataireUsecase locataireUsecase) {
+    public LocataireController(BienUsecase bienUsecase, LocataireUsecase locataireUsecase,  TypeMaterielUsecase typeMaterielUsecase) {
         this.bienUsecase = bienUsecase;
         this.locataireUsecase=locataireUsecase;
+        this.typeMaterielUsecase = typeMaterielUsecase;
     }
 
     @PostMapping
@@ -39,7 +43,18 @@ public class LocataireController {
 
        }
 
-       Locataire locataire = locataireUsecase.ajouterLocataire(requestDto.getName(), requestDto.getEmail(), requestDto.getTelephone(),requestDto.getDate_entree(),biens);
+        List<UUID> materielIds = requestDto.getMateriels();
+
+        List<TypeMateriel> materiels = new ArrayList<>();
+        if (materielIds != null && !materielIds.isEmpty()) {
+            for (UUID materielId : materielIds) {
+                TypeMateriel materiel = typeMaterielUsecase.recupererParId(materielId).orElseThrow();
+                materiels.add(materiel);
+            }
+        }
+
+
+        Locataire locataire = locataireUsecase.ajouterLocataire(requestDto.getName(), requestDto.getEmail(), requestDto.getTelephone(),requestDto.getDate_entree(),biens,materiels);
 
        return new ResponseEntity<>(toResponse(locataire),HttpStatus.OK);
     }
@@ -70,7 +85,8 @@ public class LocataireController {
                 locateur.getEmail(),
                 locateur.getTelephone(),
                 locateur.getDate_entree(),
-                locateur.getBiens()
+                locateur.getBiens(),
+                locateur.getMateriels()
         );
     }
 }

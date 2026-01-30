@@ -2,6 +2,8 @@ package net.ally.loyersfactueshexagonalespringboot.domain.port.input;
 
 import net.ally.loyersfactueshexagonalespringboot.domain.model.bien.Bien;
 import net.ally.loyersfactueshexagonalespringboot.domain.model.locateur.Locateur;
+import net.ally.loyersfactueshexagonalespringboot.domain.model.typemateriel.TypeMateriel;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
